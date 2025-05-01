@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import InterviewCard from "../components/InterviewCard";
+import InterviewCard from "@/components/InterviewCard";
 
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
@@ -61,7 +61,7 @@ async function Home() {
               />
             ))
           ) : (
-            <p>You haven't taken any interviews yet</p>
+            <p>You haven&apos;t taken any interviews yet</p>
           )}
         </div>
       </section>

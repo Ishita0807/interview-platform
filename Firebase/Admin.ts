@@ -37,11 +37,12 @@ const InitFirebaseAdmin = () => {
     const apps = getApps();
 
     if (!apps.length) {
+        // Initialize the Firebase Admin SDK only if there are no existing apps
         initializeApp({
             credential: cert({
                 projectId: process.env.FIREBASE_PROJECT_ID,
                 clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+                privateKey: process.env.FIREBASE_PROJECT_KEY?.replace(/\\n/g, '\n'),
             }),
         });
     }

@@ -109,17 +109,17 @@ export async function getLatestInterviews(
   })) as Interview[];
 }
 
-export async function getInterviewsByUserId(
-  userId: string
-): Promise<Interview[] | null> {
+export async function getInterviewsByUserId(userId: string | undefined) {
+  if (!userId) {
+    console.warn("getInterviewsByUserId called with undefined userId");
+    return []; // Return an empty array if userId is undefined
+  }
+
   const interviews = await db
     .collection("interviews")
     .where("userId", "==", userId)
     .orderBy("createdAt", "desc")
     .get();
 
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
+  return interviews.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
