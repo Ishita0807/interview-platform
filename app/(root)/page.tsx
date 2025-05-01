@@ -1,18 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
+// import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import InterviewCard from "../components/InterviewCard";
 
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
   getInterviewsByUserId,
   getLatestInterviews,
 } from "@/lib/actions/general.action";
+import InterviewCard from "@/components/InterviewCard";
 
 async function Home() {
+  // const router= useRouter();
   const user = await getCurrentUser();
   console.log(user);
+  // if(!user) router.push("/sign-in");
 
   const [userInterviews, allInterview] = await Promise.all([
     getInterviewsByUserId(user?.id!),
