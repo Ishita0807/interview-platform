@@ -1,6 +1,6 @@
 "use server";
 
-import { auth, db } from "@/Firebase/Admin";
+import { auth, db } from "../../Firebase/Admin";
 import { cookies } from "next/headers";
 
 // Session duration (1 week)

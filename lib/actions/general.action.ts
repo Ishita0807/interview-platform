@@ -3,8 +3,8 @@
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
-import { db } from "@/Firebase/Admin";
-import { feedbackSchema } from "@/constants";
+import { db } from "../../Firebase/Admin";
+import { feedbackSchema } from "@ai-sdk/schemas";
 
 export async function createFeedback(params: CreateFeedbackParams) {
   const { interviewId, userId, transcript, feedbackId } = params;
@@ -17,11 +17,11 @@ export async function createFeedback(params: CreateFeedbackParams) {
       )
       .join("");
 
-    const { object } = await generateObject({
+    const { object }: { object: { totalScore: number; categoryScores: any; strengths: string[]; areasForImprovement: string[]; finalAssessment: string } } = await generateObject({
       model: google("gemini-2.0-flash-001", {
         structuredOutputs: false,
       }),
-      schema: feedbackSchema,
+      schema: feedbackschema,
       prompt: `
         You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
         Transcript:
