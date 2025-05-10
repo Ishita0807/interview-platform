@@ -12,18 +12,25 @@ import {
 import InterviewCard from "@/components/InterviewCard";
 
 async function Home() {
-  // const router= useRouter();
   const user = await getCurrentUser();
-  console.log(user);
-  // if(!user) router.push("/sign-in");
+
+  // If user is not logged in
+  if (!user || !user.id) {
+    console.warn("No user found");
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Please sign in to view your interviews.</p>
+      </div>
+    );
+  }
 
   const [userInterviews, allInterview] = await Promise.all([
-    getInterviewsByUserId(user?.id!),
-    getLatestInterviews({ userId: user?.id! }),
+    getInterviewsByUserId(user.id),
+    getLatestInterviews({ userId: user.id }),
   ]);
 
-  const hasPastInterviews = userInterviews?.length! > 0;
-  const hasUpcomingInterviews = allInterview?.length! > 0;
+  const hasPastInterviews = userInterviews?.length > 0;
+  const hasUpcomingInterviews = (allInterview ?? []).length > 0;
 
   return (
     <>
@@ -53,10 +60,10 @@ async function Home() {
 
         <div className="interviews-section">
           {hasPastInterviews ? (
-            userInterviews?.map((interview:any) => (
+            userInterviews.map((interview: any) => (
               <InterviewCard
                 key={interview.id}
-                userId={user?.id}
+                userId={user.id}
                 interviewId={interview.id}
                 role={interview.role}
                 type={interview.type}
@@ -75,10 +82,10 @@ async function Home() {
 
         <div className="interviews-section">
           {hasUpcomingInterviews ? (
-            allInterview?.map((interview) => (
+            (allInterview ?? []).map((interview: any) => (
               <InterviewCard
                 key={interview.id}
-                userId={user?.id}
+                userId={user.id}
                 interviewId={interview.id}
                 role={interview.role}
                 type={interview.type}
