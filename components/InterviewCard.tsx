@@ -108,4 +108,12 @@ const InterviewCard = async ({
   );
 };
 
+<Image
+  src="/user-avatar.png" // fallback to default
+  alt="profile-image"
+  width={539}
+  height={539}
+  className="rounded-full object-cover size-[120px]"
+/>
+
 export default InterviewCard;
